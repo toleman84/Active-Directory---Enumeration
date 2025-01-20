@@ -1,0 +1,15 @@
+🔹 Escaneo SMB en la máquina de usuario (192.168.1.10):
+- Puerto 445 abierto ✅
+- SMB Signing habilitado pero NO obligatorio ❌ (Vulnerable a SMB Relay Attack)
+
+📌 Riesgos detectados:
+1. Posible interceptación de credenciales NTLM mediante herramientas como Responder.
+2. El atacante puede hacer relay de credenciales con NTLMRelayX.
+3. Si las credenciales tienen permisos administrativos, se puede comprometer el Controlador de Dominio.
+
+🔹 Recomendaciones:
+- Configurar la política de seguridad para **forzar SMB Signing obligatorio**.
+- Deshabilitar SMBv1 y restringir el acceso SMB solo a máquinas autorizadas.
+- Implementar autenticación Kerberos en lugar de NTLM.
+
+✅ Captura de pantalla adjunta con los resultados de Nmap.
