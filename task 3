@@ -1,0 +1,42 @@
+🔹 Escaneo de la máquina del usuario (192.168.1.10):
+
+✅ Servicios detectados:
+- 135/tcp → RPC (Microsoft Windows RPC)
+- 139/tcp → NetBIOS (Microsoft Windows NetBIOS)
+- 445/tcp → SMB (Compartición de archivos)
+- 5040/tcp → Servicio desconocido (posible riesgo)
+- 49669/tcp → RPC (Microsoft Windows RPC)
+
+📌 **Riesgos detectados**:
+1. **SMB abierto en 445/tcp** → Puede permitir ataques SMB Relay o Pass-the-Hash.
+2. **Puerto 5040/tcp desconocido** → Puede ser un backdoor o servicio mal configurado.
+3. **RPC en 135/tcp y 49669/tcp** → Puede facilitar movimiento lateral en la red.
+
+🔹 **Recomendaciones**:
+- **Verificar configuración de SMB** para forzar SMB Signing y evitar ataques NTLM Relay.
+- **Investigar el servicio en 5040/tcp** con `netstat -ano` en la máquina del usuario.
+- **Restringir el acceso a RPC** y monitorear logs de eventos en Windows.
+
+✅ Captura de pantalla con los resultados de Nmap:
+
+┌──(kali㉿kali)-[~]
+└─$ sudo nmap -sV -p- 192.168.1.10
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-19 21:04 EST
+Stats: 0:01:47 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
+SYN Stealth Scan Timing: About 92.75% done; ETC: 21:06 (0:00:08 remaining)
+Stats: 0:03:12 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
+Service scan Timing: About 80.00% done; ETC: 21:07 (0:00:20 remaining)
+Nmap scan report for 192.168.1.10 (192.168.1.10)
+Host is up (0.011s latency).
+Not shown: 65530 filtered tcp ports (no-response)
+PORT      STATE SERVICE       VERSION
+135/tcp   open  msrpc         Microsoft Windows RPC
+139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp   open  microsoft-ds?
+5040/tcp  open  unknown
+49669/tcp open  msrpc         Microsoft Windows RPC
+MAC Address: B0:60:88:34:FC:1A (Intel Corporate)
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 279.57 seconds
